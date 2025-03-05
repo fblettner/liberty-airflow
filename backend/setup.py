@@ -23,7 +23,7 @@ def get_version():
         version = subprocess.check_output(["git", "describe", "--tags", "--abbrev=0"], stderr=subprocess.DEVNULL).decode().strip()
         return version
     except subprocess.CalledProcessError:
-        return "6.0.0"  # Default version if all else fails
+        return "1.0.0"  # Default version if all else fails
 
 setup(
     name="liberty-airflow",
@@ -38,9 +38,9 @@ setup(
     install_requires=read_requirements(),
     entry_points={
         "console_scripts": [
-            "install-airflow=airflow_manager.install:install_airflow",
-            "start-airflow=airflow_manager.start:start_airflow",
-            "stop-airflow=airflow_manager.stop:stop_airflow",
+            "airflow-install=app.manager.install:install_airflow",
+            "airflow-start=app.manager.start:start_airflow",
+            "airflow-stop=app.manager.stop:stop_airflow",
         ]
     },
     classifiers=[
