@@ -40,8 +40,6 @@ AIRFLOW__WEBSERVER__BASE_URL="http://localhost:8081/airflow" # Replace with your
 PYTHONWARNINGS="ignore::SyntaxWarning"
 AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
 AIRFLOW__WEBSERVER__SECRET_KEY=your_secret_key_here  # Replace with a secure secret key
-# OSX issue only
-# AIRFLOW__CORE__EXECUTOR=app.utils.local_executor.LocalExecutor 
 
 # Git config
 GIT_URL=http://your_git_token_here@localhost:3000/`repository`

@@ -38,9 +38,9 @@ setup(
     install_requires=read_requirements(),
     entry_points={
         "console_scripts": [
-            "airflow-install=app.manager.install:install_airflow",
-            "airflow-start=app.manager.start:start_airflow",
-            "airflow-stop=app.manager.stop:stop_airflow",
+            "airflow-install=app.airflow.manager.install:install_airflow",
+            "airflow-start=app.airflow.manager.start:start_airflow",
+            "airflow-stop=app.airflow.manager.stop:stop_airflow",
         ]
     },
     classifiers=[

@@ -3,7 +3,7 @@ import shutil
 import subprocess
 import psycopg2
 from app.utils.utils import load_env
-from app.drivers import get_drivers_path
+from app.airflow.drivers import get_drivers_path
 
 def create_postgres_db():
     """Creates the PostgreSQL database and role for Airflow."""
