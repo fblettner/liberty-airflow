@@ -1,3 +1,7 @@
+#
+# Copyright (c) 2025 NOMANA-IT and/or its affiliates.
+# All rights reserved. Use is subject to license terms.
+#
 import os
 import shutil
 import subprocess
@@ -5,6 +9,7 @@ import psycopg2
 from app.utils.utils import load_env
 from app.airflow.drivers import get_drivers_path
 from app.airflow.config import get_config_path
+from app.dags import get_dags_path
 
 def create_postgres_db():
     """Creates the PostgreSQL database and role for Airflow."""
@@ -108,6 +113,24 @@ def upload_config():
         subprocess.run(f"airflow connections import {os.path.join(config_dir, 'connections.json')}", shell=True, check=True)
         print("Imported Airflow connections.")
 
+def copy_dags():
+    """Copies only .py to the Airflow Dags Direcotry."""
+    airflow_home = os.getenv("AIRFLOW_HOME", os.getcwd())
+    drivers_dir = os.path.join(airflow_home, "dags")
+    os.makedirs(drivers_dir, exist_ok=True)
+    
+    package_drivers_dir = get_dags_path()
+    print(package_drivers_dir)
+    if os.path.exists(package_drivers_dir):
+        for driver_file in os.listdir(package_drivers_dir):
+            src_path = os.path.join(package_drivers_dir, driver_file)
+            dest_path = os.path.join(drivers_dir, driver_file)
+            if os.path.isfile(src_path):
+                shutil.copy2(src_path, dest_path)
+                print(f"Copied {driver_file} to {drivers_dir}")
+    else:
+        print("No drivers directory found in package.")
+
 def install_airflow():
     load_env()
     airflow_version = os.getenv("AIRFLOW_VERSION", "2.10.2")  
@@ -146,7 +169,7 @@ def install_airflow():
     
     copy_drivers()
     upload_config()
-
+    copy_dags()
 
 if __name__ == "__main__":
     install_airflow()
