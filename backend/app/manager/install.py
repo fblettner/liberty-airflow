@@ -1,7 +1,9 @@
 import os
+import shutil
 import subprocess
 import psycopg2
 from app.utils.utils import load_env
+from app.drivers import get_drivers_path
 
 def create_postgres_db():
     """Creates the PostgreSQL database and role for Airflow."""
@@ -74,6 +76,24 @@ def create_airflow_admin():
 
     print("Airflow admin user created successfully.")
 
+def copy_drivers():
+    """Copies only .jar JDBC drivers to the Airflow drivers directory."""
+    airflow_home = os.getenv("AIRFLOW_HOME", os.getcwd())
+    drivers_dir = os.path.join(airflow_home, "drivers")
+    os.makedirs(drivers_dir, exist_ok=True)
+    
+    package_drivers_dir = get_drivers_path()
+    print(package_drivers_dir)
+    if os.path.exists(package_drivers_dir):
+        for driver_file in os.listdir(package_drivers_dir):
+            if driver_file.endswith(".jar"):  # Only copy .jar files
+                src_path = os.path.join(package_drivers_dir, driver_file)
+                dest_path = os.path.join(drivers_dir, driver_file)
+                if os.path.isfile(src_path):
+                    shutil.copy2(src_path, dest_path)
+                    print(f"Copied {driver_file} to {drivers_dir}")
+    else:
+        print("No drivers directory found in package.")
 
 def install_airflow():
     load_env()
@@ -102,6 +122,16 @@ def install_airflow():
 
     # Create the admin user after db init
     create_airflow_admin() 
+
+    # Create Directories
+    airflow_home = os.getenv("AIRFLOW_HOME", os.getcwd())
+    os.makedirs(os.path.join(airflow_home, "dags"), exist_ok=True)
+    os.makedirs(os.path.join(airflow_home, "backup"), exist_ok=True)
+    os.makedirs(os.path.join(airflow_home, "plugins"), exist_ok=True)
+    os.makedirs(os.path.join(airflow_home, "drivers"), exist_ok=True)
+    
+    copy_drivers()
+
 
 if __name__ == "__main__":
     install_airflow()
