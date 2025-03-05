@@ -32,6 +32,7 @@ POSTGRES_ADMIN_PASSWORD=your_secure_admin_password_here  # Replace with a secure
 # Airflow Config
 AIRFLOW_HOME="./"
 AIRFLOW__CORE__LOAD_EXAMPLES="False"
+AIRFLOW__DATABASE__LOAD_DEFAULT_CONNECTIONS="False"
 AIRFLOW__WEBSERVER__EXPOSE_CONFIG="True"
 AIRFLOW__CORE__EXECUTOR="LocalExecutor"
 AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8081 # Replace with your port
@@ -57,7 +58,7 @@ AIRFLOW_ADMIN_LASTNAME=User
 
 ---
 
-## 🚀 Step 2: Install Liberty Airflow
+## ▶ Step 2: Install Liberty Airflow
 
 ```sh
 pip install liberty-airflow
@@ -66,7 +67,7 @@ This script will preconfigure the environment for Airflow installation
 
 ---
 
-## 🚀 Step 3: Install Airflow
+## ▶ Step 3: Install Airflow
 To install Airflow and set up the database, run:
 
 ```sh
@@ -80,7 +81,7 @@ This script will:
 
 ---
 
-## ▶ Step 3: Start Airflow
+## ▶ Step 4: Start Airflow
 To start Airflow services, run:
 
 ```sh
@@ -95,7 +96,7 @@ Once started, you can access Airflow at:
 
 ---
 
-## ⏹ Step 4: Stop Airflow
+## ⏹ Step 5: Stop Airflow
 To stop all running Airflow processes, run:
 
 ```sh
