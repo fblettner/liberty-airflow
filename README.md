@@ -116,6 +116,57 @@ This will:
 
 ---
 
+## ✅ Prebuilt Dags
+
+### **Daily DAGs**
+- **`airflow-purge-daily-1`**: Purges old Airflow logs and metadata on a daily schedule (`@daily`).
+- **`database-backup-daily-1`**: Backs up databases every day at 01:00 AM (`00 1 * * *`).
+
+### **Weekly DAGs**
+- **`database-purge-weekly-1`**: Performs database cleanup and purging on a weekly schedule (`@weekly`).
+
+### **Unscheduled DAGs**
+- **`airflow-sync-1`**: Synchronizes repositories as needed (manually triggered).
+
+---
+
+---
+
+## ✅ Variables
+
+The DAGs rely on Airflow Variables for configuration. These can be set in the **Airflow UI** (`Admin -> Variables`) or via the Airflow CLI.
+
+| Variable Name           | Description                                        | Default Value         |
+|------------------------|------------------------------------------------|---------------------|
+| `airflow_retention_days` | Number of days to retain Airflow logs          | `1`                 |
+| `backup_directory`      | Directory where backups are stored              | `/opt/git/backup`   |
+| `backup_repository`     | Name of the backup repository                    | `liberty-backup`    |
+| `backup_retention_days` | Number of days to retain database backups       | `0`                 |
+| `backup_to_git`        | Whether to push backups to Git (`True` or `False`) | `True`              |
+
+
+---
+
+## ✅ Connections
+
+The DAGs require predefined Airflow Connections to interact with external systems. These can be configured via **Airflow UI** (`Admin -> Connections`).
+
+### **Git Connection (`git_conn`)**
+- **Connection Type**: `generic`
+- **Description**: Used for performing Git operations (pull, push, etc.)
+- **Required Fields**: `login`, `password`, `host`
+
+### **PostgreSQL Connection (`liberty_conn`)**
+- **Connection Type**: `postgres`
+- **Description**: Database connection for Liberty Framework
+- **Required Fields**: `login`, `password`, `host`, `port`, `schema`
+- **Defaults**:
+  - `login`: `liberty`
+  - `host`: `localhost`
+  - `port`: `5432`
+  
+---
+
 ## 💖 Sponsorship  
 If you find **Liberty Ariflow** useful and would like to support its development, consider sponsoring us. Your contributions help maintain the project, add new features, and improve the documentation. Every contribution, big or small, is greatly appreciated!  
 
