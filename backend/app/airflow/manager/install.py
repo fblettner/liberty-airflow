@@ -4,6 +4,7 @@ import subprocess
 import psycopg2
 from app.utils.utils import load_env
 from app.airflow.drivers import get_drivers_path
+from app.airflow.config import get_config_path
 
 def create_postgres_db():
     """Creates the PostgreSQL database and role for Airflow."""
@@ -95,6 +96,18 @@ def copy_drivers():
     else:
         print("No drivers directory found in package.")
 
+def upload_config():
+    """Uploads Airflow variables and connections from config directory to the database."""
+    config_dir = get_config_path()
+    
+    if os.path.exists(os.path.join(config_dir, "variables.json")):
+        subprocess.run(f"airflow variables import {os.path.join(config_dir, 'variables.json')}", shell=True, check=True)
+        print("Imported Airflow variables.")
+    
+    if os.path.exists(os.path.join(config_dir, "connections.json")):
+        subprocess.run(f"airflow connections import {os.path.join(config_dir, 'connections.json')}", shell=True, check=True)
+        print("Imported Airflow connections.")
+
 def install_airflow():
     load_env()
     airflow_version = os.getenv("AIRFLOW_VERSION", "2.10.2")  
@@ -125,12 +138,14 @@ def install_airflow():
 
     # Create Directories
     airflow_home = os.getenv("AIRFLOW_HOME", os.getcwd())
+    os.makedirs(os.path.join(airflow_home, "tmp"), exist_ok=True)
     os.makedirs(os.path.join(airflow_home, "dags"), exist_ok=True)
     os.makedirs(os.path.join(airflow_home, "backup"), exist_ok=True)
     os.makedirs(os.path.join(airflow_home, "plugins"), exist_ok=True)
     os.makedirs(os.path.join(airflow_home, "drivers"), exist_ok=True)
     
     copy_drivers()
+    upload_config()
 
 
 if __name__ == "__main__":

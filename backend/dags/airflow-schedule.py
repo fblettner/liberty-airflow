@@ -5,7 +5,9 @@
 from airflow.utils.dates import days_ago
 
 from app.airflow.dags.airflow.purge import purge_airflow_dag
-
+from app.airflow.dags.airflow.sync import sync_repo_dag
+from app.airflow.dags.database.backup import backup_db_dag
+from app.airflow.dags.database.purge import purge_db_dag
 
 # Default arguments for all DAGs
 default_args = {
@@ -19,10 +21,10 @@ default_args = {
 
 # Daily DAGS
 daily_dags_1 = purge_airflow_dag('airflow-purge-daily-1', '@daily', default_args)
-#daily_dags_2 = backup_db_dag('database-backup-daily-1', '00 1 * * *', default_args)
+daily_dags_2 = backup_db_dag('database-backup-daily-1', '00 1 * * *', default_args)
 
 # Weekly DAGS
-#weekly_dags_1 = purge_db_dag('database-purge-weekly-1', '@weekly', default_args)
+weekly_dags_1 = purge_db_dag('database-purge-weekly-1', '@weekly', default_args)
 
 # Unscheduled DAGS
-#others_dags_2 = sync_repo_dag('airflow-sync-1', None, default_args)
+others_dags_2 = sync_repo_dag('airflow-sync-1', None, default_args)

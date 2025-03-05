@@ -41,9 +41,6 @@ PYTHONWARNINGS="ignore::SyntaxWarning"
 AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
 AIRFLOW__WEBSERVER__SECRET_KEY=your_secret_key_here  # Replace with a secure secret key
 
-# Git config
-GIT_URL=http://your_git_token_here@localhost:3000/`repository`
-
 # Default Airflow Admin User
 AIRFLOW_ADMIN_USER=admin
 AIRFLOW_ADMIN_EMAIL=admin@example.com
