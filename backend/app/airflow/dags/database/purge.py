@@ -1,6 +1,6 @@
 from airflow import DAG
 from airflow.models import Variable
-from airflow.operators.python import PythonOperator
+from airflow.operators.python import PythonOperator, ShortCircuitOperator
 from airflow.utils.dates import days_ago
 from app.airflow.plugins.git.utils import purge_old_backups
 import logging
@@ -36,6 +36,14 @@ def purge_db_dag(dag_id, schedule, default_args):
         dag=dag
     )
 
+    backup_to_git = Variable.get("backup_to_git", default_var="False").lower() in ("true", "1", "yes", "y")
+
+    check_backup_to_git = ShortCircuitOperator(
+        task_id='check_backup_to_git',
+        python_callable=lambda: backup_to_git,  # Stops if False
+        dag=dag,
+    )
+
     # Create a PythonOperator for purging old backups
     purge_old_backups_task = PythonOperator(
         task_id='purge_old_backups_task',
@@ -55,6 +63,6 @@ def purge_db_dag(dag_id, schedule, default_args):
         dag=dag
     )
 
-    start >> purge_old_backups_task >> end
+    start >> check_backup_to_git >> purge_old_backups_task >> end
     
     return dag

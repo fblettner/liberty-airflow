@@ -4,7 +4,7 @@
 #
 from airflow import DAG
 from airflow.models import Variable
-from airflow.operators.python import PythonOperator
+from airflow.operators.python import PythonOperator, ShortCircuitOperator
 from app.airflow.plugins.database.postgres.db_backup import pg_dump
 from app.airflow.plugins.database.postgres.db_meta import pg_get_databases
 from app.airflow.plugins.git.utils import push_backup
@@ -44,6 +44,13 @@ def backup_db_dag(dag_id, schedule, default_args):
     # Get backup directory from Airflow variable
     backup_directory = Variable.get("backup_directory", default_var=30)
     backup_repository = Variable.get("backup_repository", default_var=30)
+    backup_to_git = Variable.get("backup_to_git", default_var="False").lower() in ("true", "1", "yes", "y")
+
+    check_backup_to_git = ShortCircuitOperator(
+        task_id='check_backup_to_git',
+        python_callable=lambda: backup_to_git,  # Stops if False
+        dag=dag,
+    )
 
     # Step 2: Create the push task using PythonOperator
     push_all_backups_task = PythonOperator(
@@ -66,6 +73,6 @@ def backup_db_dag(dag_id, schedule, default_args):
     )
 
     # Set task dependencies: all backups must complete before pushing
-    start >> backup_tasks >> push_all_backups_task >> end
+    start >> backup_tasks >> check_backup_to_git >> push_all_backups_task >> end
 
     return dag
