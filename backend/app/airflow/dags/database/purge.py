@@ -1,3 +1,7 @@
+#
+# Copyright (c) 2025 NOMANA-IT and/or its affiliates.
+# All rights reserved. Use is subject to license terms.
+#
 from airflow import DAG
 from airflow.models import Variable
 from airflow.operators.python import PythonOperator, ShortCircuitOperator
