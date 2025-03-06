@@ -15,6 +15,18 @@ export default defineConfig({
       '/api': {
         target: "http://localhost:8082",
         changeOrigin: true,
+      },
+      '/socket.io': {
+        target: "ws://localhost:8082",
+        changeOrigin: true,
+      },
+      '/socket': {
+        target: "http://localhost:8082",
+        changeOrigin: true,
+      },     
+      '/airflow': {
+        target: "http://localhost:8081",
+        changeOrigin: true,
       }
   },
 

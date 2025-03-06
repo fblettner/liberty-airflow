@@ -9,9 +9,10 @@ from fastapi import APIRouter, Body, Depends, HTTPException, Query, Request, Pat
 from pydantic import Field
 from app.utils.jwt import JWT
 from app.controllers.api_controller import ApiController
-from app.models.auth import TOKEN_ERROR_MESSAGE, TOKEN_RESPONSE_DESCRIPTION, TOKEN_RESPONSE_EXAMPLE, LoginRequest, TokenResponse
-from app.models.base import ErrorResponse, response_200, response_422, response_500
-from app.services.api_services import LoginType
+from app.models.auth import TOKEN_ERROR_MESSAGE, TOKEN_RESPONSE_DESCRIPTION, TOKEN_RESPONSE_EXAMPLE, USER_ERROR_MESSAGE, USER_RESPONSE_DESCRIPTION, USER_RESPONSE_EXAMPLE, LoginRequest, TokenResponse, UserResponse
+from app.models.base import ErrorResponse, ValidationErrorResponse, response_200, response_422, response_500
+from app.services.api_services import LoginType, SessionMode
+from app.models.apidb import ENCRYPT_ERROR_MESSAGE, ENCRYPT_RESPONSE_DESCRIPTION, ENCRYPT_RESPONSE_EXAMPLE, EncryptResponse
 
 def setup_api_routes(app, controller: ApiController, jwt: JWT):
     router = APIRouter()
@@ -31,11 +32,49 @@ def setup_api_routes(app, controller: ApiController, jwt: JWT):
     async def token(
         req: Request,
         body: LoginRequest,
-        type: LoginType = Query(None, description="Authentication type, from database or using OIDC. Valid values: `database`, `oidc`, `airflow`"),
+        pool: str = Query(None, description="The database pool alias to retrieve the user. (e.g., `default`, `libnsx1`)"),
+        mode: SessionMode = Query(None, description="The session mode, retrieve data from framework table or pool. Valid values: `framework`, `session`"),
+        type: LoginType = Query(None, description="Authentication type, from database or using OIDC. Valid values: `database`, `oidc`"),
     ):
         return await controller.token(req)
 
 
+    @router.get("/auth/user",
+        summary="AUTH - User",
+        description="Retrieve user information.",
+        tags=["Authentication"], 
+        response_model=UserResponse,
+        responses={
+            200: response_200(UserResponse, USER_RESPONSE_DESCRIPTION, USER_RESPONSE_EXAMPLE),
+            422: {"model": ValidationErrorResponse},  
+            500: response_500(ErrorResponse, USER_ERROR_MESSAGE),
+        },
+    )
+    async def user(
+        req: Request,
+        jwt: str = Depends(jwt.is_valid_jwt),
+        user: str = Query(None, description="User ID."),
+    ):
+        return await controller.user(req)
+    
+
+    @router.post(
+        "/fmw/encrypt",
+        summary="FMW - Encrypt",
+        description="Encrypt the input received",
+        tags=["Framework"],
+        response_model=EncryptResponse,
+        responses={
+            200: response_200(EncryptResponse, ENCRYPT_RESPONSE_DESCRIPTION, ENCRYPT_RESPONSE_EXAMPLE),
+            422: response_422(),  
+            500: response_500(ErrorResponse, ENCRYPT_ERROR_MESSAGE),
+        },
+    )
+    async def encrypt(
+        req: Request,
+        plain_text: str = Query(None, description="Text to be encrypted"),
+        ):
+        return await controller.encrypt(req)    
     
     @router.get("/airflow/dags",
         summary="DAGS - List",

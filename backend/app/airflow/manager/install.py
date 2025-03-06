@@ -6,7 +6,7 @@ import os
 import shutil
 import subprocess
 import psycopg2
-from app.utils.utils import load_env
+from app.utils.common import load_env
 from app.airflow.drivers import get_drivers_path
 from app.airflow.config import get_config_path
 from app.dags import get_dags_path

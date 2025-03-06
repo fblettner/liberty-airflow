@@ -1,13 +1,6 @@
 import os
 import subprocess
-from app.utils.utils import load_env
-from airflow.www.app import cached_app
-from airflow.configuration import conf
-from airflow.www.extensions.init_auth_manager import init_auth_manager
-
-from airflow import settings
-from airflow.www import app as application
-from airflow import configuration as conf
+from app.utils.common import load_env
 
 def start_airflow():
     """Start Airflow with CeleryExecutor (Scheduler, Webserver, Workers)."""
