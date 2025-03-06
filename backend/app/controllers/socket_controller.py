@@ -66,7 +66,7 @@ class SocketController:
 
         # Pool info (simulate fetching details from a database pool if needed)
         pool_info = []
-        for pool in self.api_controller.queryRest.db_pools.pools.keys():
+        for pool in self.api_controller.api.db_pools.pools.keys():
             pool_info.append(self.api_controller.get_pool_info(request, pool))
 
         applications = list(set(user["app"] for user in self.connected_clients.values()))

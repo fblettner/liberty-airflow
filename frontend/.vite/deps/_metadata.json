@@ -1,0 +1,58 @@
+{
+  "hash": "550e84da",
+  "configHash": "27a834cc",
+  "lockfileHash": "c277b63f",
+  "browserHash": "aa3bb997",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "aa375028",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "939a4ee7",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "7553ac0b",
+      "needsInterop": true
+    },
+    "@nomana-it/liberty-core": {
+      "src": "../../node_modules/@nomana-it/liberty-core/dist/liberty-core.es.js",
+      "file": "@nomana-it_liberty-core.js",
+      "fileHash": "ee70b501",
+      "needsInterop": false
+    },
+    "react-oidc-context": {
+      "src": "../../node_modules/react-oidc-context/dist/esm/react-oidc-context.js",
+      "file": "react-oidc-context.js",
+      "fileHash": "2923168f",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "purify.es-BGDLgQxM-M6JT6DUD": {
+      "file": "purify__es-BGDLgQxM-M6JT6DUD.js"
+    },
+    "index.es-D6oC0jBA-TBWCFE5J": {
+      "file": "index__es-D6oC0jBA-TBWCFE5J.js"
+    },
+    "chunk-UANN5DV4": {
+      "file": "chunk-UANN5DV4.js"
+    },
+    "chunk-DNLHEKFE": {
+      "file": "chunk-DNLHEKFE.js"
+    },
+    "chunk-NVAVHLZZ": {
+      "file": "chunk-NVAVHLZZ.js"
+    },
+    "chunk-5WRI5ZAA": {
+      "file": "chunk-5WRI5ZAA.js"
+    }
+  }
+}
