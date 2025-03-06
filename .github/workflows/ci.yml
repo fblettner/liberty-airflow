@@ -94,6 +94,23 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' 
+  
+      - name: Update package.json to use NPM version of liberty-core
+        run: npm pkg set dependencies.@nomana-it/liberty-core=latest
+        working-directory: frontend
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: frontend 
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: frontend   
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:

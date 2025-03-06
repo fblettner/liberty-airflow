@@ -18,6 +18,9 @@ from app.controllers.api_controller import ApiController
 from app.routes.api_routes import setup_api_routes
 from app.airflow.manager.start import start_airflow
 from app.airflow.manager.stop import stop_airflow
+from app.utils.utils import load_env
+from app.public import get_frontend_assets_path, get_offline_assets_path
+from app.routes.react_routes import setup_react_routes
 
 import uvicorn
 
@@ -28,6 +31,7 @@ class BackendAPI:
 
     def setup_routes(self, app: FastAPI):
         setup_api_routes(app, self.api_controller, self.jwt)
+        setup_react_routes(app)
 
 
 description = """
@@ -79,6 +83,22 @@ backend_api.setup_routes(app)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    app.mount(
+        "/offline/assets",
+        StaticFiles(directory=get_offline_assets_path(), html=True),
+        name="assets",
+    )
+
+    try: 
+        app.mount(
+            "/assets",
+            StaticFiles(directory=get_frontend_assets_path(), html=True),
+            name="assets",
+        )     
+        app.state.offline_mode = False
+    except Exception as e:
+        logging.error(f"Error mounting assets: {e}")
+        app.state.offline_mode = True      
     yield
     print("Shutting down...")
     stop_airflow()
@@ -87,14 +107,18 @@ async def lifespan(app: FastAPI):
 
 def main():
     """Entry point for running the application."""
+
+    load_env() 
     start_airflow()
+    fastapi_host = os.getenv("FASTAPI_HOST", "localhost")  
+    fastapi_port = os.getenv("FASTAPI_PORT", 8082)
     
-    config = uvicorn.Config("app.main:app", host="0.0.0.0", port=8082, reload=True, log_level="warning")
+    config = uvicorn.Config("app.main:app", host=fastapi_host, port=fastapi_port, reload=True, log_level="warning")
     server = uvicorn.Server(config)
 
     try:
-        logging.warning("Starting Liberty Airflow... Press Ctrl+C to stop.")
-        logging.warning("Liberty Airflow started at: http://0.0.0.0:8082")
+        print("Starting Liberty Airflow... Press Ctrl+C to stop.")
+        print(f"Liberty Airflow started at: http://{fastapi_host}:{fastapi_port}")
         server.run()
     except KeyboardInterrupt:
         logging.warning("Server shutting down gracefully...")

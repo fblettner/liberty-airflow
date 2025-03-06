@@ -40,6 +40,8 @@ AIRFLOW__WEBSERVER__BASE_URL="http://localhost:8081/airflow" # Replace with your
 PYTHONWARNINGS="ignore::SyntaxWarning"
 AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
 AIRFLOW__WEBSERVER__SECRET_KEY=your_secret_key_here  # Replace with a secure secret key
+AIRFLOW__API__AUTH_BACKENDS=airflow.api.auth.backend.basic_auth
+SCARF_ANALYTICS=false
 
 # Default Airflow Admin User
 AIRFLOW_ADMIN_USER=admin
@@ -47,6 +49,10 @@ AIRFLOW_ADMIN_EMAIL=admin@example.com
 AIRFLOW_ADMIN_PASSWORD=your_admin_password_here  # Replace with a secure password
 AIRFLOW_ADMIN_FIRSTNAME=Admin
 AIRFLOW_ADMIN_LASTNAME=User
+
+# FastAPI Config
+FASTAPI_HOST="localhost"
+FASTAPI_PORT=8082
 ```
 
 > ⚠ **IMPORTANT**: Do **not** commit the `.env` file to version control. Keep credentials secure.
