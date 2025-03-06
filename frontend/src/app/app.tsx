@@ -3,10 +3,7 @@
  * All rights reserved. Use is subject to license terms.
  * *
  */
-import { AppProvider, LYThemeProvider } from "@nomana-it/liberty-core";
-import AppContent from '@ly_components/AppContent';
-import { getModules } from '@ly_data/modules';
-import { getApplications } from '@ly_data/applications';
+import { AppProvider, AppsContent, LYThemeProvider } from "@nomana-it/liberty-core";
 import { getMenus } from '@ly_data/menus';
 import { theme } from '@ly_data/theme';
 import { getDashboard } from '@ly_data/dashboard';
@@ -20,13 +17,11 @@ export function App() {
   
   return (
     <AppProvider
-      getModules={getModules}
-      getApplications={getApplications}
       getMenus={getMenus}
       getDashboard={getDashboard}
     >
         <LYThemeProvider customTheme={theme}>
-          <AppContent />
+          <AppsContent />
         </LYThemeProvider>
     </AppProvider>
 

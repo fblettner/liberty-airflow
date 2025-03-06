@@ -13,6 +13,8 @@ from app.models.auth import TOKEN_ERROR_MESSAGE, TOKEN_RESPONSE_DESCRIPTION, TOK
 from app.models.base import ErrorResponse, ValidationErrorResponse, response_200, response_422, response_500
 from app.services.api_services import LoginType, SessionMode
 from app.models.apidb import ENCRYPT_ERROR_MESSAGE, ENCRYPT_RESPONSE_DESCRIPTION, ENCRYPT_RESPONSE_EXAMPLE, EncryptResponse
+from app.models.modules import MODULES_ERROR_MESSAGE, MODULES_RESPONSE_DESCRIPTION, MODULES_RESPONSE_EXAMPLE, ModulesResponse
+from app.models.applications import APPLICATIONS_ERROR_MESSAGE, APPLICATIONS_RESPONSE_DESCRIPTION, APPLICATIONS_RESPONSE_EXAMPLE, ApplicationsResponse
 
 def setup_api_routes(app, controller: ApiController, jwt: JWT):
     router = APIRouter()
@@ -75,6 +77,63 @@ def setup_api_routes(app, controller: ApiController, jwt: JWT):
         plain_text: str = Query(None, description="Text to be encrypted"),
         ):
         return await controller.encrypt(req)    
+
+
+    @router.get("/fmw/modules",
+        summary="FMW - Modules",
+        description="Retrieve Modules.",
+        tags=["Framework"], 
+        response_model=ModulesResponse,
+        responses={
+            200: response_200(ModulesResponse, MODULES_RESPONSE_DESCRIPTION, MODULES_RESPONSE_EXAMPLE),
+            422: response_422(),  
+            500: response_500(ErrorResponse, MODULES_ERROR_MESSAGE),
+        },
+    )
+    async def modules(
+        req: Request,
+    ):
+        return await controller.modules(req)
+    
+    @router.get("/fmw/applications",
+        summary="FMW - Applications",
+        description="Retrieve Applications.",
+        tags=["Framework"],
+        response_model=ApplicationsResponse,
+        responses={
+            200: response_200(ApplicationsResponse, APPLICATIONS_RESPONSE_DESCRIPTION, APPLICATIONS_RESPONSE_EXAMPLE),
+            422: response_422(),  
+            500: response_500(ErrorResponse, APPLICATIONS_ERROR_MESSAGE),
+        },
+    )
+    async def applications(
+        req: Request,
+    ):
+        return await controller.applications(req)  
+
+    @router.get("/logs",
+        summary="FMW - Get logs",
+        description="Get all current logs and upload to cache",
+        tags=["Framework"],
+    )
+    async def get_logs(req: Request):
+        return await controller.get_log(req)
+    
+    @router.get("/logs/details",
+        summary="FMW - Get log details",
+        description="Get details for a log id from the cache",
+        tags=["Framework"],
+    )
+    async def get_logs(req: Request):
+        return await controller.get_log_details(req)
+    
+    @router.post("/logs",
+        summary="FMW - Push logs",
+        description="Push logs to files in json and plain text format",
+        tags=["Framework"],
+    )
+    async def post_logs(req: Request):
+        return await controller.push_log(req)
     
     @router.get("/airflow/dags",
         summary="DAGS - List",

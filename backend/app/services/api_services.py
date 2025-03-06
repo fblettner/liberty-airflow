@@ -3,6 +3,7 @@ import logging
 import os
 logger = logging.getLogger(__name__)
 
+from fastapi.responses import JSONResponse
 import requests
 from werkzeug.security import check_password_hash
 from enum import Enum
@@ -149,6 +150,66 @@ class API:
         except Exception as err:
             raise HTTPException(status_code=500, detail=str(err))      
         
+
+    def get_pool_info(self, req: Request, pool: str):
+        try:
+            pool_info = self.db_pools.get_pool(pool).db_dao.get_pool_info()
+            return pool_info
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    async def modules(self, req: Request):
+        try:      
+            modulesProperties = [
+                { "ROW_ID": 1, "MODULE_ID": "menus", "MODULE_DESCRIPTION": "Enable Drawer Menus", "MODULE_ENABLED": "Y",  "MODULE_PARAMS": None },
+                { "ROW_ID": 2, "MODULE_ID": "dev", "MODULE_DESCRIPTION": "Enable Development Mode", "MODULE_ENABLED": "Y",  "MODULE_PARAMS": None },
+                { "ROW_ID": 3, "MODULE_ID": "grafana", "MODULE_DESCRIPTION": "Enable Grafana Dashboard", "MODULE_ENABLED": "N",  "MODULE_PARAMS": None },
+                { "ROW_ID": 4, "MODULE_ID": "AI", "MODULE_DESCRIPTION": "Enable AI", "MODULE_ENABLED": "Y",  "MODULE_PARAMS": None },
+                { "ROW_ID": 5, "MODULE_ID": "debug", "MODULE_DESCRIPTION": "Enable Debug", "MODULE_ENABLED": "N",  "MODULE_PARAMS": None },
+                { "ROW_ID": 6, "MODULE_ID": "sentry", "MODULE_DESCRIPTION": "Enable Sentry", "MODULE_ENABLED": "N",  "MODULE_PARAMS": None },
+                { "ROW_ID": 7, "MODULE_ID": "login", "MODULE_DESCRIPTION": "Enable Embedded Login", "MODULE_ENABLED": "Y",  "MODULE_PARAMS": None }
+            ]
+
+            return JSONResponse({
+                    "items": modulesProperties,
+                    "status": "success",
+                    "metadata": [],
+                    "hasMore": "false",
+                    "count": 7,
+                }) 
+
+        except Exception as err:
+            raise RuntimeError(f"{str(err)}")  
+
+    async def applications(self, req: Request):
+        try:      
+            appsProperties = [
+                {
+                    "ROW_ID": 1,
+                    "APPS_ID": 1,
+                    "APPS_NAME": "Liberty Airflow",
+                    "APPS_DESCRIPTION": "Liberty Airflow",
+                    "APPS_POOL": "default",
+                    "APPS_OFFSET": 5000,
+                    "APPS_LIMIT": 10000,
+                    "APPS_VERSION": 500,
+                    "APPS_DASHBOARD": 1,
+                    "APPS_THEME": "liberty"
+                }
+            ]
+
+            return JSONResponse({
+                    "items": appsProperties,
+                    "status": "success",
+                    "metadata": [],
+                    "hasMore": "false",
+                    "count": 1,
+                }) 
+
+        except Exception as err:
+            raise RuntimeError(f"{str(err)}")      
+
+
     async def dags(self, req: Request, headers: dict):
         try: 
             airflow_url = os.getenv("AIRFLOW__WEBSERVER__BASE_URL")  # Default to current directory
