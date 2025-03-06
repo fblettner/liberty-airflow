@@ -7,3 +7,5 @@ python-dotenv==1.0.1
 setuptools==75.8.2
 apache-airflow==2.10.5
 pyspark==3.5.3
+fastapi==0.115.7
+uvicorn==0.34.0
