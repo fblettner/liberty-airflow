@@ -53,6 +53,7 @@ AIRFLOW_ADMIN_LASTNAME=User
 # FastAPI Config
 FASTAPI_HOST="localhost"
 FASTAPI_PORT=8082
+
 ```
 
 > ⚠ **IMPORTANT**: Do **not** commit the `.env` file to version control. Keep credentials secure.
@@ -86,15 +87,17 @@ This script will:
 To start Airflow services, run:
 
 ```sh
-liberty-start
+liberty-airflow
 ```
 This will:
 - Start the Airflow Scheduler
 - Start the Airflow Webserver
 - Start FastAPI
 
-Once started, you can access Airflow at:
-👉 **[http://localhost:8081/airflow](http://localhost:8081/airflow)**
+Once started, you can access at:
+👉 **Airflow UI: [http://localhost:8081/airflow](http://localhost:8081/airflow)**
+👉 **Frontend: [http://localhost:8082](http://localhost:80882)**
+👉 **API: [http://localhost:8082/api](http://localhost:80882/api)**
 
 ---
 
