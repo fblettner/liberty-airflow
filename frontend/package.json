@@ -1,0 +1,44 @@
+{
+  "name": "vite-template-redux",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "@nomana-it/liberty-core": "^1.0.15",
+    "@sentry/vite-plugin": "^3.1.2",
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "oidc-client-ts": "^3.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-oidc-context": "^3.2.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "react/jsx-no-target-blank": "off"
+    }
+  },
+  "prettier": "prettier-config-nick"
+}
