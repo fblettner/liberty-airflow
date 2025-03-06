@@ -87,15 +87,17 @@ This script will:
 To start Airflow services, run:
 
 ```sh
-liberty-start
+liberty-airflow
 ```
 This will:
 - Start the Airflow Scheduler
 - Start the Airflow Webserver
 - Start FastAPI
 
-Once started, you can access Airflow at:
-👉 **[http://localhost:8081/airflow](http://localhost:8081/airflow)**
+Once started, you can access at:
+👉 **Airflow UI: [http://localhost:8081/airflow](http://localhost:8081/airflow)**
+👉 **Frontend: [http://localhost:8082](http://localhost:80882)**
+👉 **API: [http://localhost:8082/api](http://localhost:80882/api)**
 
 ---
 
