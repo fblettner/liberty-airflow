@@ -1,6 +1,6 @@
 import os
 import subprocess
-from app.utils.utils import load_env
+from app.utils.common import load_env
 
 def stop_airflow():
     """Stops all Airflow services, including Celery workers."""
