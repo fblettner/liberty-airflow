@@ -38,10 +38,10 @@ setup(
     install_requires=read_requirements(),
     entry_points={
         "console_scripts": [
-            "airflow-install=app.airflow.manager.install:install_airflow",
-            "airflow-start=app.airflow.manager.start:start_airflow",
-            "airflow-stop=app.airflow.manager.stop:stop_airflow",
-            "liberty-airflow=app.main:main",
+            "airflow-install=libarf.airflow.manager.install:install_airflow",
+            "airflow-start=libarf.airflow.manager.start:start_airflow",
+            "airflow-stop=libarf.airflow.manager.stop:stop_airflow",
+            "liberty-airflow=libarf.main:main",
         ]
     },
     classifiers=[

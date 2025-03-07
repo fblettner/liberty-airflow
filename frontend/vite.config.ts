@@ -32,7 +32,7 @@ export default defineConfig({
 
   },
   build: {
-    outDir: "../backend/app/public/frontend",
+    outDir: "../backend/libarf/public/frontend",
     assetsDir: 'assets',
     emptyOutDir: true,
     sourcemap: true

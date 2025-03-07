@@ -1,0 +1,22 @@
+{
+    "git_conn": {
+      "conn_type": "generic",
+      "description": "Git Connection for performing pull, push...",
+      "login": "",
+      "password": "",
+      "host": "",
+      "port": null,
+      "schema": "",
+      "extra": ""
+    },
+    "liberty_conn": {
+      "conn_type": "postgres",
+      "description": "Liberty Connection",
+      "login": "liberty",
+      "password": "",
+      "host": "localhost",
+      "port": 5432,
+      "schema": "",
+      "extra": ""
+    }
+  }

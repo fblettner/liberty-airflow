@@ -4,10 +4,10 @@ packaging==24.2
 psycopg2-binary==2.9.10
 pyproject_hooks==1.2.0
 python-dotenv==1.0.1
-setuptools==75.8.2
-apache-airflow==2.10.5
+setuptools==75.8.0
 pyspark==3.5.3
 fastapi==0.115.7
 fastapi-socketio==0.0.10
 uvicorn==0.34.0
 greenlet==3.1.1
+liberty-framework>=6.0.0
