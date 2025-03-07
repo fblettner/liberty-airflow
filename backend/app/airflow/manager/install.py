@@ -2,6 +2,9 @@
 # Copyright (c) 2025 NOMANA-IT and/or its affiliates.
 # All rights reserved. Use is subject to license terms.
 #
+import logging
+logger = logging.getLogger(__name__)
+
 import os
 import shutil
 import subprocess
@@ -10,6 +13,61 @@ from app.utils.common import load_env
 from app.airflow.drivers import get_drivers_path
 from app.airflow.config import get_config_path
 from app.dags import get_dags_path
+from app.postgres.dump import get_dump_path
+
+def create_liberty_db(admin_db, admin_user, admin_password, host, port, db, user, password, load_data=False):
+    try:
+        # Connect to PostgreSQL (default 'postgres' database)
+        conn = psycopg2.connect(
+            dbname=admin_db,
+            user=admin_user,
+            password=admin_password,
+            host=host,
+            port=port
+        )
+        conn.autocommit = True
+        cur = conn.cursor()
+
+        # Create the Liberty role (if not exists)
+        cur.execute(f"SELECT 1 FROM pg_roles WHERE rolname='{user}';")
+        if not cur.fetchone():
+            cur.execute(f"CREATE ROLE {user} WITH LOGIN PASSWORD '{password}';")
+            logging.warning(f"Created PostgreSQL role: {user}")
+
+        # Create the Airflow database (if not exists)
+        cur.execute(f"SELECT 1 FROM pg_database WHERE datname='{db}';")
+        if not cur.fetchone():
+            cur.execute(f"CREATE DATABASE {db} OWNER {user};")
+            logging.warning(f"Created PostgreSQL database: {db}")
+
+        cur.close()
+        conn.close()
+
+        if load_data:
+            dump_file = get_dump_path(db)
+            if not os.path.exists(dump_file):
+                logging.error(f"Dump file {dump_file} not found!")
+                return
+
+            logging.warning(f"Restoring database {db} from {dump_file}...")
+
+            pg_path = subprocess.run(["which", "pg_restore"], capture_output=True, text=True).stdout.strip()
+            command = [
+                pg_path, 
+                "--clean",  
+                "--if-exists",  
+                "-U", user,
+                "-h", host,
+                "-p", str(port),
+                "-d", db,
+                dump_file
+            ]
+            subprocess.run(command, check=True, env={"PGPASSWORD": password})
+
+            logging.warning("Database restored successfully!")
+            
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Restore failed: {e}")
 
 def create_postgres_db():
     """Creates the PostgreSQL database and role for Airflow."""
@@ -20,39 +78,27 @@ def create_postgres_db():
         # Get PostgreSQL connection details from env variables
         postgres_host = os.getenv("POSTGRES_HOST", "localhost")
         postgres_port = os.getenv("POSTGRES_PORT", "5432")
-        postgres_db = os.getenv("POSTGRES_DB", "airflow")
-        postgres_user = os.getenv("POSTGRES_USER", "airflow")
-        postgres_password = os.getenv("POSTGRES_PASSWORD", "airflow")
+        postgres_airflow_db = os.getenv("POSTGRES_AIRFLOW_DB", "airflow")
+        postgres_airflow_user = os.getenv("POSTGRES_AIRFLOW_USER", "airflow")
+        postgres_airflow_password = os.getenv("POSTGRES_AIRFLOW_PASSWORD", "airflow")
+
+        postgres_liberty_db = os.getenv("POSTGRES_LIBERTY_DB", "liberty")
+        postgres_liberty_user = os.getenv("POSTGRES_LIBERTY_USER", "liberty")
+        postgres_liberty_password = os.getenv("POSTGRES_LIBERTY_PASSWORD", "liberty")
+
+        postgres_libnarf_db = os.getenv("POSTGRES_LIBNARF_DB", "libnarf")
+        postgres_libnarf_user = os.getenv("POSTGRES_LIBNARF_USER", "libnarf")
+        postgres_libnarf_password = os.getenv("POSTGRES_LIBNARF_PASSWORD", "libnarf")
 
         postgres_admin_db = os.getenv("POSTGRES_ADMIN_DB", "postgres")
         postgres_admin_user = os.getenv("POSTGRES_ADMIN_USER", "postgres")
         postgres_admin_password = os.getenv("POSTGRES_ADMIN_PASSWORD", "securepassword")
 
-        # Connect to PostgreSQL (default 'postgres' database)
-        conn = psycopg2.connect(
-            dbname=postgres_admin_db,
-            user=postgres_admin_user,
-            password=postgres_admin_password,
-            host=postgres_host,
-            port=postgres_port
-        )
-        conn.autocommit = True
-        cur = conn.cursor()
+        create_liberty_db(postgres_admin_db, postgres_admin_user, postgres_admin_password, postgres_host, postgres_port, postgres_airflow_db, postgres_airflow_user, postgres_airflow_password, False)
+        create_liberty_db(postgres_admin_db, postgres_admin_user, postgres_admin_password, postgres_host, postgres_port, postgres_liberty_db, postgres_liberty_user, postgres_liberty_password, True)
+        create_liberty_db(postgres_admin_db, postgres_admin_user, postgres_admin_password, postgres_host, postgres_port, postgres_libnarf_db, postgres_libnarf_user, postgres_libnarf_password, True)
 
-        # Create the Airflow role (if not exists)
-        cur.execute(f"SELECT 1 FROM pg_roles WHERE rolname='{postgres_user}';")
-        if not cur.fetchone():
-            cur.execute(f"CREATE ROLE {postgres_user} WITH LOGIN PASSWORD '{postgres_password}';")
-            print(f"Created PostgreSQL role: {postgres_user}")
 
-        # Create the Airflow database (if not exists)
-        cur.execute(f"SELECT 1 FROM pg_database WHERE datname='{postgres_db}';")
-        if not cur.fetchone():
-            cur.execute(f"CREATE DATABASE {postgres_db} OWNER {postgres_user};")
-            print(f"Created PostgreSQL database: {postgres_db}")
-
-        cur.close()
-        conn.close()
 
     except Exception as e:
         print(f"Error setting up PostgreSQL: {e}")

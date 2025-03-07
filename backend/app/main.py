@@ -24,6 +24,8 @@ from app.public import get_frontend_assets_path, get_offline_assets_path
 from app.routes.react_routes import setup_react_routes
 from app.controllers.socket_controller import SocketController
 from app.routes.socket_routes import setup_socket_routes
+from app.controllers.setup_controller import SetupController
+from app.routes.setup_routes import setup_setup_routes
 import uvicorn
 
 class BackendAPI:
@@ -31,12 +33,14 @@ class BackendAPI:
         self.jwt = JWT()
         self.socket_controller = SocketController()
         self.api_controller = ApiController(self.jwt)
+        self.setup_controller = SetupController(self.api_controller, self.jwt)
         self.socket_manager = None
 
     def setup_routes(self, app: FastAPI):
         setup_api_routes(app, self.api_controller, self.jwt)
         setup_react_routes(app)
         setup_socket_routes(app, self.socket_controller)
+        setup_setup_routes(app, self.setup_controller)
 
     def setup_sockets(self, app: FastAPI):
         # Attach Socket.IO manager
@@ -176,8 +180,11 @@ async def lifespan(app: FastAPI):
             StaticFiles(directory=get_frontend_assets_path(), html=True),
             name="assets",
         )     
-        config = api_instance.load_db_properties()
-        await api_instance.default_pool(config)
+
+        liberty_config = api_instance.load_liberty_properties()
+        await api_instance.default_pool(liberty_config)
+        airflow_config = api_instance.load_airflow_properties()
+        await api_instance.airflow_pool(airflow_config)
 
         app.state.offline_mode = False
     except Exception as e:

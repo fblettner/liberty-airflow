@@ -36,7 +36,7 @@ class Rest:
         self.logs_handler = LogHandler()
         self.api = api
 
-    async def rest(self, req: Request):
+    async def call_rest(self, req: Request):
         try:
             query_params = req.query_params
 
@@ -240,10 +240,10 @@ class Rest:
             "row_limit": 1000,
         }
         # Get the target query using the framework query method
-        target_query = await self.queryRest.db_pools.get_pool("default").db_dao.get_framework_query(
-            query, self.queryRest.db_pools.get_pool("default").db_type
+        target_query = await self.api.db_pools.get_pool("default").db_dao.get_framework_query(
+            query, self.api.db_pools.get_pool("default").db_type
         )
-        results = await self.queryRest.db_pools.get_pool("default").db_dao.get(target_query, context)
+        results = await self.api.db_pools.get_pool("default").db_dao.get(target_query, context)
     
         # Ensure 'rows' exist in the response
         if not results.get("rows"):

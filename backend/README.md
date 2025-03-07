@@ -17,17 +17,29 @@ Airflow requires environment variables to be set. Create a `.env` file in the pr
 AIRFLOW_VERSION=2.10.5
 PYTHON_VERSION=3.12
 
-# PostgreSQL Config
+# PostgreSQL Server
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
-POSTGRES_DB=test
-POSTGRES_USER=test
-POSTGRES_PASSWORD=your_password_here  # Replace with a secure password
+
+# PostgreSQL Airflow
+POSTGRES_AIRFLOW_DB=airflow
+POSTGRES_AIRFLOW_USER=airflow
+POSTGRES_AIRFLOW_PASSWORD=your_password_here  # Replace with a secure password
+
+# PostgreSQL Liberty
+POSTGRES_LIBERTY_DB=liberty
+POSTGRES_LIBERTY_USER=liberty
+POSTGRES_LIBERTY_PASSWORD=your_password_here  # Replace with a secure password
+
+# PostgreSQL Liberty Airflow
+POSTGRES_LIBNARF_DB=libnarf
+POSTGRES_LIBNARF_USER=libnarf
+POSTGRES_LIBNARF_PASSWORD=your_password_here  # Replace with a secure password
 
 # Admin PostgreSQL Config
 POSTGRES_ADMIN_DB=liberty
 POSTGRES_ADMIN_USER=liberty
-POSTGRES_ADMIN_PASSWORD=your_secure_admin_password_here  # Replace with a secure password
+POSTGRES_ADMIN_PASSWORD=your_admin_password_here  # Replace with a secure password
 
 # Airflow Config
 AIRFLOW_HOME="./"
