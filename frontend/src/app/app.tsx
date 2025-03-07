@@ -3,27 +3,23 @@
  * All rights reserved. Use is subject to license terms.
  * *
  */
-import { AppProvider, AppsContent, LYThemeProvider } from "@nomana-it/liberty-core";
-import { getMenus } from '@ly_data/menus';
-import { theme } from '@ly_data/theme';
-import { getDashboard } from '@ly_data/dashboard';
-import { setLookup } from '@ly_data/lookup';
-import { setEnums } from '@ly_data/enum';
+import { useThemeConfig } from '@ly_styles/theme';
+import { AppsContent, LYThemeProvider, useAppContext } from '@nomana-it/liberty-core';
+
 
 export function App() {
+  const { userProperties, appsProperties, modulesProperties } = useAppContext();
 
-  setLookup();
-  setEnums();
-  
+  const { theme } = useThemeConfig({
+    appsProperties,
+    userProperties,
+    modulesProperties,
+  });
+
   return (
-    <AppProvider
-      getMenus={getMenus}
-      getDashboard={getDashboard}
-    >
-        <LYThemeProvider customTheme={theme}>
-          <AppsContent />
-        </LYThemeProvider>
-    </AppProvider>
+    <LYThemeProvider customTheme={theme}>
+        <AppsContent />
+    </LYThemeProvider>
 
   );
 }
