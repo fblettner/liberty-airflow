@@ -1,7 +1,0 @@
-{
-    "airflow_retention_days": 1,
-    "backup_directory": "/opt/git/backup",
-    "backup_repository": "liberty-backup",
-    "backup_retention_days": 0,
-    "backup_to_git": "True"
-}
