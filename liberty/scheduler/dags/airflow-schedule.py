@@ -2,7 +2,7 @@
 # Copyright (c) 2025 NOMANA-IT and/or its affiliates.
 # All rights reserved. Use is subject to license terms.
 #
-from airflow.utils.dates import days_ago
+import pendulum
 
 from liberty.airflow.dags.airflow.purge import purge_airflow_dag
 from liberty.airflow.dags.airflow.sync import sync_repo_dag
@@ -13,7 +13,7 @@ from liberty.airflow.dags.database.purge import purge_db_dag
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': days_ago(1),
+    'start_date': pendulum.today("UTC").subtract(days=1),
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,

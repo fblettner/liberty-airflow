@@ -1,8 +1,6 @@
 import os
 from fastapi import APIRouter, Request, Response
 from fastapi.responses import FileResponse, RedirectResponse
-import httpx
-
 from liberty.scheduler.public import get_frontend_path, get_offline_path
 
 

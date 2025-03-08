@@ -3,7 +3,6 @@ import os
 import logging
 logger = logging.getLogger(__name__)
 
-import requests
 from fastapi import HTTPException, Request
 from werkzeug.security import check_password_hash
 
