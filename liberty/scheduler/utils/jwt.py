@@ -1,6 +1,6 @@
 import logging
 
-from liberty.config import get_encrypted_path, get_key_path, get_secrets_path
+from liberty.framework.config import get_encrypted_path, get_key_path, get_secrets_path
 logger = logging.getLogger(__name__)
 from fastapi import  Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
