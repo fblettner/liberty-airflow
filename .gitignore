@@ -1,9 +1,9 @@
 dist
-backend/libarf/config/files/db.properties
-backend/libarf/config/files/encryption.key
-backend/libarf/config/files/secrets.json
-backend/libarf/config/files/secrets.json.enc
-backend/tests
+liberty/scheduler/config/files/db.properties
+liberty/scheduler/config/files/encryption.key
+liberty/scheduler/config/files/secrets.json
+liberty/scheduler/config/files/secrets.json.enc
+liberty/tests
 
 # Logs
 *.log
@@ -14,8 +14,8 @@ pnpm-debug.log*
 lerna-debug.log*
 .DS_Store*
 .VSCodeCounter*
-backend/libarf/config/keys/*
-backend/tests/results
+liberty/scheduler/config/keys/*
+liberty/tests/results
 frontend/cypress
 
 # Diagnostic reports (https://nodejs.org/api/report.html)

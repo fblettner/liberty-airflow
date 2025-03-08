@@ -32,7 +32,7 @@ export default defineConfig({
 
   },
   build: {
-    outDir: "../backend/libarf/public/frontend",
+    outDir: "../liberty/scheduler/public/frontend",
     assetsDir: 'assets',
     emptyOutDir: true,
     sourcemap: true
