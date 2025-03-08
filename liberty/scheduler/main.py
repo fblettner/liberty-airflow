@@ -8,12 +8,12 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 # Import the original FastAPI app and controllers
-from liberty.main import BackendAPI
-from liberty.services.rest_services import Rest
-from liberty.routes.api_routes import setup_api_routes
-from liberty.routes.socket_routes import setup_socket_routes
-from liberty.routes.setup_routes import setup_setup_routes
-from liberty.controllers.api_controller import ApiController
+from liberty.framework.main import BackendAPI
+from liberty.framework.services.rest_services import Rest
+from liberty.framework.routes.api_routes import setup_api_routes
+from liberty.framework.routes.socket_routes import setup_socket_routes
+from liberty.framework.routes.setup_routes import setup_setup_routes
+from liberty.framework.controllers.api_controller import ApiController
 from liberty.scheduler.controllers.airflow_controller import AirflowController
 from liberty.scheduler.routes.airflow_routes import setup_airflow_routes
 from liberty.scheduler.utils.jwt import CustomJWT
