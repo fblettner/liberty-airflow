@@ -74,14 +74,27 @@ FASTAPI_PORT=8082
 
 ## ▶ Step 2: Install Liberty Airflow
 
+pipx is recommended due to dependencies between liberty framework and airflow
+
 ```sh
-pip install liberty-airflow
+pip install pipx
+pipx ensurepath
+pipx install liberty-airflow
 ```
 This script will preconfigure the environment for Airflow installation
 
+```sh
+  installed package liberty-airflow, installed using Python 3.12.4
+  These apps are now globally available
+    - airflow-install
+    - airflow-start
+    - airflow-stop
+    - liberty-airflow
+done! ✨ 🌟 ✨
+```
 ---
 
-## ▶ Step 3: Install Airflow
+## ▶ Step 3: Install and configure Airflow
 To install Airflow and set up the database, run:
 
 ```sh
@@ -95,7 +108,7 @@ This script will:
 
 ---
 
-## ▶ Step 4: Start Airflow
+## ▶ Step 4: Start Liberty Airflow
 To start Airflow services, run:
 
 ```sh

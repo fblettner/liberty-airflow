@@ -1,9 +1,0 @@
-include requirements.txt
-include LICENSE
-include README.md
-recursive-include libarf *
-recursive-include tests *   
-exclude libarf/config/files/db.properties
-exclude libarf/config/files/encryption.key
-exclude libarf/config/files/secrets.json
-exclude libarf/config/files/secrets.json.enc
