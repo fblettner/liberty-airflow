@@ -143,7 +143,7 @@ def copy_drivers():
     print(package_drivers_dir)
     if os.path.exists(package_drivers_dir):
         for driver_file in os.listdir(package_drivers_dir):
-            if driver_file.endswith(".jar"):  # Only copy .jar files
+            if driver_file.endswith(".jar", ".properties"):  # Only copy .jar files
                 src_path = os.path.join(package_drivers_dir, driver_file)
                 dest_path = os.path.join(drivers_dir, driver_file)
                 if os.path.isfile(src_path):
