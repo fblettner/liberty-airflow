@@ -53,12 +53,13 @@ AIRFLOW__CORE__LOAD_EXAMPLES="False"
 AIRFLOW__DATABASE__LOAD_DEFAULT_CONNECTIONS="False"
 AIRFLOW__WEBSERVER__EXPOSE_CONFIG="True"
 AIRFLOW__CORE__EXECUTOR="LocalExecutor"
-AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8081 # Replace with your port
-AIRFLOW__WEBSERVER__BASE_URL="http://localhost:8081/airflow" # Replace with your URL
+AIRFLOW__API__PORT=8081 # Replace with your port
+AIRFLOW__API__BASE_URL="http://localhost:8081/airflow" # Replace with your URL
 PYTHONWARNINGS="ignore::SyntaxWarning"
 AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-AIRFLOW__WEBSERVER__SECRET_KEY=your_secret_key_here  # Replace with a secure secret key
+AIRFLOW__API_AUTH__JWT_SECRET=your_secret_key_here  # Replace with a secure secret key
 AIRFLOW__API__AUTH_BACKENDS=airflow.api.auth.backend.basic_auth
+AIRFLOW__CORE__AUTH_MANAGER="airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager"
 SCARF_ANALYTICS=false
 
 # Default Airflow Admin User

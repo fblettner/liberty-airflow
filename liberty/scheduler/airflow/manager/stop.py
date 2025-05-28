@@ -9,13 +9,13 @@ def stop_airflow():
     os.system("source .venv/bin/activate")
 
     print("🛑 Stopping Airflow Scheduler...")
-    subprocess.run("pkill -f 'airflow api-server'", shell=True)
+    subprocess.run("pkill -f 'airflow scheduler'", shell=True)
 
     print("🛑 Stopping Airflow Dag Processor...")
     subprocess.run("pkill -f 'airflow dag-processor'", shell=True)
 
     print("🛑 Stopping Airflow API Server...")
-    subprocess.run("pkill -f 'airflow webserver'", shell=True)
+    subprocess.run("pkill -f 'airflow api_server'", shell=True)
     
     print("✅ Airflow stopped successfully.")
 
