@@ -13,10 +13,10 @@ def start_airflow():
     subprocess.Popen("nohup airflow scheduler > ./logs/scheduler.log 2>&1 &", shell=True)
     
     print("🌍 Starting Airflow API Server...")
-    subprocess.Popen("nohup airflow api-server > ./logs/webserver.log 2>&1 &", shell=True)
+    subprocess.Popen("nohup airflow api-server > ./logs/api-server.log 2>&1 &", shell=True)
 
     print("🌍 Starting Airflow Dag Processor...")
-    subprocess.Popen("nohup airflow dag-processor > ./logs/webserver.log 2>&1 &", shell=True)
+    subprocess.Popen("nohup airflow dag-processor > ./logs/dag-processor.log 2>&1 &", shell=True)
 
 
 if __name__ == "__main__":

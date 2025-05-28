@@ -217,6 +217,7 @@ def install_airflow():
         "pipx inject apache-airflow apache-airflow-providers-apache-spark",
         "pipx inject apache-airflow apache-airflow-providers-oracle",
         "pipx inject apache-airflow liberty-airflow-plugins",
+        "pipx inject apache-airflow apache-airflow-providers-fab"
     ]
 
     for cmd in commands:
