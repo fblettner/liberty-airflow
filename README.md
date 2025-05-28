@@ -16,6 +16,7 @@ Airflow requires environment variables to be set. Create a `.env` file in the pr
 # Airflow and Python Version
 AIRFLOW_VERSION=3.0.1
 PYTHON_VERSION=3.12
+AIRFLOW_INIT=true
 
 # PostgreSQL Server
 POSTGRES_HOST=localhost
