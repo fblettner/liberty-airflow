@@ -90,6 +90,10 @@ def create_postgres_db():
         postgres_libnarf_user = os.getenv("POSTGRES_LIBNARF_USER", "libnarf")
         postgres_libnarf_password = os.getenv("POSTGRES_LIBNARF_PASSWORD", "libnarf")
 
+        postgres_nomaarf_db = os.getenv("POSTGRES_LIBNARF_DB", "nomaarf")
+        postgres_nomaarf_user = os.getenv("POSTGRES_LIBNARF_USER", "nomaarf")
+        postgres_nomaarf_password = os.getenv("POSTGRES_LIBNARF_PASSWORD", "nomaarf")
+
         postgres_admin_db = os.getenv("POSTGRES_ADMIN_DB", "postgres")
         postgres_admin_user = os.getenv("POSTGRES_ADMIN_USER", "postgres")
         postgres_admin_password = os.getenv("POSTGRES_ADMIN_PASSWORD", "securepassword")
@@ -97,6 +101,7 @@ def create_postgres_db():
         create_liberty_db(postgres_admin_db, postgres_admin_user, postgres_admin_password, postgres_host, postgres_port, postgres_airflow_db, postgres_airflow_user, postgres_airflow_password, False)
         create_liberty_db(postgres_admin_db, postgres_admin_user, postgres_admin_password, postgres_host, postgres_port, postgres_liberty_db, postgres_liberty_user, postgres_liberty_password, True)
         create_liberty_db(postgres_admin_db, postgres_admin_user, postgres_admin_password, postgres_host, postgres_port, postgres_libnarf_db, postgres_libnarf_user, postgres_libnarf_password, True)
+        create_liberty_db(postgres_admin_db, postgres_admin_user, postgres_admin_password, postgres_host, postgres_port, postgres_nomaarf_db, postgres_nomaarf_user, postgres_nomaarf_password, True)
 
 
 

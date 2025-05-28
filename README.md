@@ -14,7 +14,7 @@ Airflow requires environment variables to be set. Create a `.env` file in the pr
 
 ```ini
 # Airflow and Python Version
-AIRFLOW_VERSION=2.10.5
+AIRFLOW_VERSION=3.0.1
 PYTHON_VERSION=3.12
 
 # PostgreSQL Server
@@ -31,10 +31,15 @@ POSTGRES_LIBERTY_DB=liberty
 POSTGRES_LIBERTY_USER=liberty
 POSTGRES_LIBERTY_PASSWORD=your_password_here  # Replace with a secure password
 
-# PostgreSQL Liberty Airflow
+# PostgreSQL Liberty Airflow Repository
 POSTGRES_LIBNARF_DB=libnarf
 POSTGRES_LIBNARF_USER=libnarf
 POSTGRES_LIBNARF_PASSWORD=your_password_here  # Replace with a secure password
+
+# PostgreSQL Liberty Airflow Data
+POSTGRES_NOMAARF_DB=nomaarf
+POSTGRES_NOMAARF_USER=nomaarf
+POSTGRES_NOMAARF_PASSWORD=your_password_here  # Replace with a secure password
 
 # Admin PostgreSQL Config
 POSTGRES_ADMIN_DB=liberty
@@ -116,7 +121,8 @@ liberty-airflow
 ```
 This will:
 - Start the Airflow Scheduler
-- Start the Airflow Webserver
+- Start the Airflow API Server
+- Start the Airflow Dag Processor
 - Start FastAPI
 
 Once started, you can access at:
@@ -134,7 +140,8 @@ airflow-stop
 ```
 This will:
 - Stop the Airflow Scheduler
-- Stop the Airflow Webserver
+- Stop the Airflow API Server
+- Stop the Airflow Dag Processor
 
 ---
 
