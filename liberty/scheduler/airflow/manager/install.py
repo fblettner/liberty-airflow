@@ -203,7 +203,7 @@ def install_airflow():
 
     # Step 1: Install Airflow inside pipx without constraints
     print("Installing Airflow via pipx...")
-    subprocess.run(f"pipx install apache-airflow=={airflow_version}", shell=True, check=True)
+    subprocess.run(f"pipx install apache-airflow=={airflow_version} --include-deps", shell=True, check=True)
 
     # Step 2: Use pipx runpip to install dependencies with constraints
     print("Installing Airflow dependencies with constraints...")
@@ -225,15 +225,18 @@ def install_airflow():
     print("Airflow installed successfully.")
 
     # Create PostgreSQL DB and Role
-    create_postgres_db()
+    airflow_init = os.getenv("AIRFLOW_INIT")
 
-    # Initialize Airflow DB
-    print("Initializing Airflow database...")
-    subprocess.run("airflow db init", shell=True, check=True)
-    print("Airflow database initialized.")    
+    if airflow_init is None or airflow_init.lower() != "false":
+        create_postgres_db()
 
-    # Create the admin user after db init
-    create_airflow_admin() 
+        # Initialize Airflow DB
+        print("Initializing Airflow database...")
+        subprocess.run("airflow db init", shell=True, check=True)
+        print("Airflow database initialized.")    
+
+        # Create the admin user after db init
+        create_airflow_admin() 
 
     # Create Directories
     airflow_home = os.getenv("AIRFLOW_HOME", os.getcwd())
@@ -244,7 +247,8 @@ def install_airflow():
     os.makedirs(os.path.join(airflow_home, "drivers"), exist_ok=True)
     
     copy_drivers()
-    upload_config()
+    if airflow_init is None or airflow_init.lower() != "false":
+        upload_config()
     copy_dags()
 
 if __name__ == "__main__":
