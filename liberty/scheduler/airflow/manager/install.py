@@ -246,6 +246,7 @@ def install_airflow():
     os.makedirs(os.path.join(airflow_home, "backup"), exist_ok=True)
     os.makedirs(os.path.join(airflow_home, "plugins"), exist_ok=True)
     os.makedirs(os.path.join(airflow_home, "drivers"), exist_ok=True)
+    os.makedirs(os.path.join(airflow_home, "logs"), exist_ok=True)
     
     copy_drivers()
     if airflow_init is None or airflow_init.lower() != "false":
