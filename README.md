@@ -1,3 +1,15 @@
+# ⚠️ This repository is archived — no longer maintained
+
+**Liberty Framework has been rebuilt from the ground up as [Liberty Next](https://docs.nomana-it.fr/liberty/getting-started/).**
+
+Liberty Next ships with **[Nomaflow](https://docs.nomana-it.fr/liberty/nomaflow/overview/)**, a prebuilt scheduler that is far easier to deploy than Airflow — so this Airflow-based scheduler is **no longer needed**. The heavy Airflow + FastAPI + React stack documented below is replaced by an integrated, ready-to-run scheduling solution.
+
+➡️ **New work happens at [Liberty Next](https://docs.nomana-it.fr/liberty/getting-started/)** — see the [Nomaflow overview](https://docs.nomana-it.fr/liberty/nomaflow/overview/).
+
+This repository is kept available for reference and for users still running the v1 applications until migration tooling lands in Liberty Next. No new features, no bug fixes — please open issues on the new project instead.
+
+---
+
 # 📖 Liberty Airflow
 ### A Scalable and Extensible FastAPI and React Scheduler prebuilt with Airflow
 
